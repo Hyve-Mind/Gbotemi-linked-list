@@ -55,7 +55,7 @@ class linkedList {
         let i = 0;
         while (currentNode) {
             if (i === index) {
-                return currentNode.value
+                return currentNode
             }
             currentNode = currentNode.next
             i++
