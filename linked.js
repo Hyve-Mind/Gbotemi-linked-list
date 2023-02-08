@@ -55,7 +55,7 @@ class linkedList {
         let i = 0;
         while (currentNode) {
             if (i === index) {
-                return currentNode;
+                return currentNode.value
             }
             currentNode = currentNode.next
             i++
@@ -111,7 +111,7 @@ class linkedList {
             str += `(${currentNode.value})` + " " + '-> ';
             currentNode = currentNode.next;
         }
-        return str + `(null)`;
+        return str;
     }
     insertAt(value, index) {
         if (index === 0) {
