@@ -1,53 +1,53 @@
 class Node {
     constructor(value = null, next = null) {
         this.value = value;
-        this.next = next
+        this.next = next;
     }
 }
 
-class linkedList{
-    constructor(){
-        this.head = null;
-        this.tail = null;
-        this.next = null;
-        this.size = 0;
+class linkedList {
+    constructor() {
+        // this.head = null;
+        // this.tail = null;
+        // this.next = null;
     }
-    getObj(){
-        return this
-    }
-    appendValue(value){
-        this.size += 1 
-        if(!this.tail){
+    appendValue(value) {
+        if (!this.tail) {
             this.tail = new Node(value);
-            this.head = this.tail
+            this.head = this.tail;
         }
-        else{
+        else {
             let oldTail = this.tail;
             this.tail = new Node(value);
             oldTail.next = this.tail;
             // this.tail.prev = oldTail;
         }
     }
-    prependValue(value){
-        this.size += 1 
+    prependValue(value) {
         if (!this.head) {
             this.head = new Node(value);
             this.tail = this.head;
         }
-        else{
+        else {
             let oldhead = this.head;
             this.head = new Node(value);
             this.head.next = oldhead;
             // oldhead.prev = this.head;
         }
     }
-    getSize(){
-        return this.size;
+    getSize() {
+        let currentNode = this.head;
+        let size = 0;
+        while (currentNode) {
+            currentNode = currentNode.next
+            size++
+        }
+        return size;
     }
-    getHead(){
+    getHead() {
         return this.head;
     }
-    getTail(){
+    getTail() {
         return this.tail
     }
     at(index) {
@@ -61,14 +61,25 @@ class linkedList{
             i++
         }
     }
-    pop(){
-        delete this.tail.value;
-        this.size--;
+    pop() {
+        if (this.getSize() <= 1) {
+            this.head = null;
+            this.tail = null;
+            return;
+        }
         let size = this.getSize();
-        let newTail = this.at(size - 1);
+        let newTail = this.at(size - 2);
         this.tail = newTail;
-        delete this.tail.next;
         this.tail.next = null;
+    }
+    shift() {
+        if (this.getSize() <= 1) {
+            this.head = null;
+            this.tail = null;
+            return;
+        }
+        let newHead = this.at(1);
+        this.head = newHead;
     }
     containsValue(obj, value) {
         for (var key in obj) {
@@ -77,57 +88,62 @@ class linkedList{
             }
 
             if (obj[key] === value) {
-                console.log(this)
                 return true;
             }
         }
         return false;
     }
-    find(value){
+    find(value) {
         let i = 0;
         let currentNode = this.head;
-        while(currentNode){
-            if(currentNode.value === value){
-                return i
-            }
-                currentNode = currentNode.next;
-                i++;
-        }
-    }
-    toString(){
-        let str = '';
-        let displayArray = [];
-        let currentNode = this.head;
-        while(currentNode){
-                str += `(${currentNode.value})` + " " + '-> ';
-                displayArray.push(currentNode.value);
-                currentNode = currentNode.next;
-        }
-        return str + `(null)`;
-    }
-    insertAt(value, index){
-        this.size++;
-        let i = 0;
-        let currentNode = this.head;
-        let slicedNode = this.head.next
-        while(currentNode && slicedNode){
-            if(i === index - 1){
-                let newNode = new Node(value);
-                currentNode.next = newNode;
-                currentNode.next.next = slicedNode
+        while (currentNode) {
+            if (currentNode.value === value) {
+                return i;
             }
             currentNode = currentNode.next;
-            slicedNode = slicedNode.next
             i++;
         }
     }
-    removeAt(index){
-        this.size--
+    toString() {
+        let str = '';
+        let currentNode = this.head;
+        while (currentNode) {
+            str += `(${currentNode.value})` + " " + '-> ';
+            currentNode = currentNode.next;
+        }
+        return str + `(null)`;
+    }
+    insertAt(value, index) {
+        if (index === 0) {
+            this.prependValue(value);
+        }
+        let i = 0;
+        let currentNode = this.head;
+        let slicedNode = this.head.next;
+        while (currentNode && slicedNode) {
+            if (i === index - 1) {
+                let newNode = new Node(value);
+                currentNode.next = newNode;
+                currentNode.next.next = slicedNode;
+            }
+            currentNode = currentNode.next;
+            slicedNode = slicedNode.next;
+            i++;
+        }
+    }
+    removeAt(index) {
+        let size = this.getSize()
+        if (index === size - 1) {
+            return this.pop();
+        }
+        else if (index === 0) {
+            return this.shift()
+        }
         let i = 0;
         let currentNode = this.head;
         let slicedNode = this.head.next.next
-        while(currentNode && slicedNode){
-            if(i === index - 1){
+        while (currentNode && slicedNode) {
+            if (i === index - 1) {
                 currentNode.next = slicedNode;
             }
             i++
@@ -136,20 +152,9 @@ class linkedList{
         }
     }
 }
-let gbotemi = new linkedList();
-gbotemi.prependValue('one');
-// gbotemi.appendValue('two');
-gbotemi.appendValue('three');
-gbotemi.appendValue('four');
-gbotemi.appendValue('five');
-gbotemi.appendValue('six');
-// gbotemi.appendValue('seven');
-gbotemi.appendValue('eight');
-gbotemi.appendValue('nine');
-gbotemi.appendValue('ten');
-gbotemi.insertAt('two', 1);
-gbotemi.insertAt('seven',6);
-gbotemi.removeAt(3);
-gbotemi.insertAt('fourty',3);
-console.log(gbotemi.getObj());
-console.log(gbotemi.toString());
+let list = new linkedList();
+list.appendValue('one');
+list.appendValue('two');
+list.appendValue('three')
+list.removeAt(1)
+console.log(list)
