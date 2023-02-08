@@ -154,7 +154,8 @@ class linkedList {
 }
 let list = new linkedList();
 list.appendValue('one');
+list.containsValue(list,'one') // example of the containsValue, result would be true in this case
 list.appendValue('two');
-list.appendValue('three')
+list.appendValue('three');
 list.removeAt(1)
 console.log(list)
